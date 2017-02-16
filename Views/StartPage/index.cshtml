@@ -1,0 +1,7 @@
+﻿@using EPiServer.Core
+@using EPiServer.Web.Mvc.Html
+@using Brightfind.EktronToEpiserverLab
+
+@model Brightfind.EktronToEpiserverLab.Models.ViewModels.PageViewModel<Brightfind.EktronToEpiserverLab.Models.Pages.StartPage>
+
+@Html.PropertyFor(m => m.CurrentPage.MainContentArea, new { @CssClass = "row equal-height", tag = EPiBootstrapArea.ContentAreaTags.FullWidth })

@@ -1,0 +1,15 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.Blocks.JumbotronBlock
+<div class="row">
+    <div class="col-md-4">
+        @Html.PropertyFor(m => m.Image)
+    </div>
+    <div class="col-md-8">
+        <h1 class="jumbotron" @Html.EditAttributes(m => m.Heading)>@Model.Heading</h1>
+        <p class="subheader" @Html.EditAttributes(m => m.Subheading)>
+            @Model.Subheading
+        </p>
+        <p>
+            <a class="btn btn-primary btn-lg right" href="@Url.ContentUrl(Model.ButtonLink)" role="button" @Html.EditAttributes(m => m.ButtonText)>@Model.ButtonText</a>
+        </p>
+    </div>
+</div>

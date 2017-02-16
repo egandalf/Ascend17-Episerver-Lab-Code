@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Brightfind.EktronToEpiserverLab.Models.Blocks;
+using Brightfind.EktronToEpiserverLab.Models.Pages;
+using EPiServer.DataAbstraction;
+using EPiServer.ServiceLocation;
+using EPiServer.Web.Mvc;
+
+namespace Brightfind.EktronToEpiserverLab.Business.Rendering
+{
+    [ServiceConfiguration(typeof(IViewTemplateModelRegistrator))]
+    public class TemplateCoordinator : IViewTemplateModelRegistrator
+    {
+        public void Register(TemplateModelCollection viewTemplateModelRegistrator)
+        {
+            viewTemplateModelRegistrator.Add(typeof(JumbotronBlock), new TemplateModel
+            {
+                Tags = new[] { EPiBootstrapArea.ContentAreaTags.FullWidth },
+                AvailableWithoutTag = false,
+                Path = BlockPath("JumbotronBlockWide")
+            });
+
+            viewTemplateModelRegistrator.Add(typeof(CallToActionBlock), new TemplateModel {
+                Tags = new[]
+                {
+                    EPiBootstrapArea.ContentAreaTags.OneQuarterWidth,
+                    EPiBootstrapArea.ContentAreaTags.OneThirdWidth
+                },
+                AvailableWithoutTag = true,
+                Path = BlockPath("CallToActionBlockNarrow")
+            });
+
+            viewTemplateModelRegistrator.Add(typeof(ServicePage), new TemplateModel
+            {
+                Name = "ServicePagePartial",
+                AvailableWithoutTag = true,
+                Inherit = true,
+                Path = PagePartialPath("ServicePageTeaser")
+            });
+        }
+
+        private string BlockPath(string viewName)
+        {
+            return $"{Global.ViewPaths.BlockFolder}{viewName}.cshtml";
+        }
+
+        private string PagePartialPath(string viewName)
+        {
+            return $"{Global.ViewPaths.PagePartialsFolder}{viewName}.cshtml";
+        }
+    }
+}

@@ -1,0 +1,7 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.Blocks.ContactInformationBlock
+<fieldset>
+    <legend>Contact</legend>
+    <div>Name: <span @Html.EditAttributes(m => m.Name)>@Model.Name</span></div>
+    <div>Email: <span @Html.EditAttributes(m => m.Email)>@Model.Email</span></div>
+    <div>Phone: <span @Html.EditAttributes(m => m.Phone)>@Model.Phone</span></div>
+</fieldset>

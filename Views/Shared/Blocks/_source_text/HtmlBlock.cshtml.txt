@@ -1,0 +1,4 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.Blocks.HtmlBlock
+<div>
+    @Html.PropertyFor(m => m.Html)
+</div>

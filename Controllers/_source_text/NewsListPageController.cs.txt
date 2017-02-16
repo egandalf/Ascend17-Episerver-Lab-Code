@@ -1,0 +1,47 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using Brightfind.EktronToEpiserverLab.Models.Pages;
+using Brightfind.EktronToEpiserverLab.Models.ViewModels;
+using EPiServer;
+using EPiServer.Core;
+using EPiServer.Framework.DataAnnotations;
+using EPiServer.Web.Mvc;
+using EPiServer.ServiceLocation;
+
+namespace Brightfind.EktronToEpiserverLab.Controllers
+{
+    public class NewsListPageController : PageController<NewsListPage>
+    {
+        public ActionResult Index(NewsListPage currentPage)
+        {
+            var pageSize = 5;
+
+            var model = new NewsListViewModel(currentPage);
+
+            var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
+
+            var newsItems = contentLoader.GetChildren<NewsPage>(currentPage.ContentLink)
+                .OrderByDescending(n => n.Created);
+
+            model.TotalArticles = newsItems.Count();
+            model.TotalPages = Math.Ceiling(model.TotalArticles / (double)pageSize);
+
+            var q = Request.QueryString;
+            int p;
+            if (string.IsNullOrEmpty(q["p"]) || !int.TryParse(q["p"], out p) || p <= 1)
+            {
+                model.CurrentPageNumber = 1;
+                model.Articles = newsItems.Take(pageSize);
+            }
+            else
+            {
+                model.CurrentPageNumber = p;
+                model.Articles = newsItems.Skip((p - 1) * pageSize).Take(pageSize);
+            }
+            
+            return View(model);
+        }
+    }
+}

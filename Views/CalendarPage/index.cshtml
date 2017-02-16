@@ -1,0 +1,42 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.ViewModels.CalendarViewModel
+
+@{
+    var month = DateTime.Now.ToString("MMMM");
+    var monthInt = DateTime.Now.Month;
+    var year = DateTime.Now.Year;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1><span @Html.EditAttributes(m => m.CurrentPage.Name)>@Model.CurrentPage.Name</span> for @month, @year</h1>
+    </div>
+    <div class="col-md-6 col-md-offset-3">
+        <div class="list-group">
+            @foreach (var ev in Model.EventsList.OrderBy(d => d.Occurrences.First()))
+            {
+                <a href="@Url.ContentUrl(ev.CurrentPage.ContentLink)" class="list-group-item">
+                    <h4>@ev.CurrentPage.Name</h4>
+                    <ul>
+                        @for (var i = 0; i < ev.StartDates.Count(); i++)
+                        {
+                            <li>
+                                @{
+                                    var start = ev.StartDates.ElementAt(i);
+                                    var end = ev.EndDates.ElementAt(i);
+                                    if (start == end)
+                                    {
+                                        <text>@start.ToLongDateString()</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@start.ToLongDateString() @start.ToLongTimeString() - @end.ToLongDateString() @end.ToLongTimeString()</text>
+                                    }
+                                }
+                            </li>
+                        }
+                    </ul>
+                </a>
+            }
+        </div>
+    </div>
+</div>

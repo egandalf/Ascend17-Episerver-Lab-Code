@@ -1,0 +1,12 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.Blocks.CallToActionBlock
+<div class="hero-feature text-center">
+    <div class="thumbnail">
+        @Html.PropertyFor(m => m.Image)
+        <div class="caption">
+            <p @Html.EditAttributes(m => m.Proverb)>@Model.Proverb</p>
+        </div>
+        <div class="anchor-bottom absolute-center">
+            <a class="btn btn-primary" href="@Url.ContentUrl(Model.ButtonLink)" @Html.EditAttributes(m => m.ButtonText)>@Model.ButtonText</a>
+        </div>
+    </div>
+</div>

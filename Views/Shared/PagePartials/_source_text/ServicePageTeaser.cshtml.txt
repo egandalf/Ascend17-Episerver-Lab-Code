@@ -1,0 +1,23 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.Pages.ServicePage
+<a href="@Url.ContentUrl(Model.ContentLink)" title="@Model.Name">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>@Model.Name</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div>
+                        @Model.TeaserText
+                    </div>
+                    <p class="pull-right">
+                        <span class="label label-default">$@Model.Price/hr</span>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    @Html.DisplayFor(m => m.PageImage)
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

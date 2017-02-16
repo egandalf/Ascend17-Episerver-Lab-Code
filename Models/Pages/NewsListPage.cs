@@ -1,0 +1,14 @@
+﻿using EPiServer.DataAbstraction;
+using EPiServer.DataAnnotations;
+
+namespace Brightfind.EktronToEpiserverLab.Models.Pages
+{
+    [ContentType(DisplayName = "NewsListPage", GUID = "1d3ec6e5-ad13-47a8-a5f2-4090518727b2", Description = "", GroupName = Global.GroupNames.Standard)]
+    [AvailableContentTypes(
+        Availability = Availability.Specific,
+        Include = new[] { typeof(NewsPage) })]
+    public class NewsListPage : SpockPageBase
+    {
+
+    }
+}

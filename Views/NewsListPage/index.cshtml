@@ -1,0 +1,47 @@
+﻿@using Brightfind.EktronToEpiserverLab.Business.Helpers
+@model Brightfind.EktronToEpiserverLab.Models.ViewModels.NewsListViewModel
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h1 @Html.EditAttributes(m => m.CurrentPage.Name)>@Model.CurrentPage.Name</h1>
+        <hr />
+        <nav aria-label="page navigation">
+            <ul class="pagination">
+                @if (Model.CurrentPageNumber > 1)
+                {
+                    <li>
+                        <a href="@Html.BuildUrl(Request.Url.AbsolutePath, new KeyValuePair<string, object>("p", Model.CurrentPageNumber - 1))" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                }
+
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="@(Model.CurrentPageNumber == i ? "active" : string.Empty)">
+                        <a href="@Html.BuildUrl(Request.Url.AbsolutePath, new KeyValuePair<string, object>("p", i))">@i</a>
+                    </li>
+                }
+
+                @if (Model.CurrentPageNumber < Model.TotalPages)
+                {
+                    <li>
+                        <a href="@Html.BuildUrl(Request.Url.AbsolutePath, new KeyValuePair<string, object>("p", Model.CurrentPageNumber + 1))" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+        <div class="list-group">
+            @foreach (var article in Model.Articles)
+            {
+                <a href="@Url.ContentUrl(article.ContentLink)" title="@article.Name" class="list-group-item">
+                    <h4 class="list-group-item-heading">@article.Headline</h4>
+                    <p class="list-group-item-text">@article.TeaserText</p>
+                    <p class="text-right"><span class="label label-default">@article.Created.ToString("MM/dd/yyyy")</span></p>
+                </a>
+            }
+        </div>
+    </div>
+</div>

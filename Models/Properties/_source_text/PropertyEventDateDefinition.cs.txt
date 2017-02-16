@@ -1,0 +1,9 @@
+﻿using EPiServer.PlugIn;
+
+namespace Brightfind.EktronToEpiserverLab.Models.Properties
+{
+    [PropertyDefinitionTypePlugIn]
+    public class PropertyEventDateDefinition : PropertyListBase<PropertyEventDate>
+    {
+    }
+}

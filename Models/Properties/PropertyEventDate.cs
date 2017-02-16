@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using Brightfind.EktronToEpiserverLab.Business.Factories;
+using EPiServer.Shell.ObjectEditing;
+
+namespace Brightfind.EktronToEpiserverLab.Models.Properties
+{
+    public class PropertyEventDate
+    {
+        [Display(Name = "Start Date/Time")]
+        public DateTime StartDate { get; set; }
+
+        [Display(Name = "End Date/Time")]
+        public DateTime EndDate { get; set; }
+
+        [Display(Name = "All Day")]
+        public bool AllDay { get; set; }
+
+        [Display(Name = "Repeats Every")]
+        [SelectOne(SelectionFactoryType = typeof(EnumSelectionFactory<RepeatOptions>))]
+        public string RepeatsEvery { get; set; }
+
+        public int Occurences { get; set; }
+    }
+
+    public enum RepeatOptions
+    {
+        Day,
+        Week,
+        Year
+    }
+}

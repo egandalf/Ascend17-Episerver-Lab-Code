@@ -1,0 +1,127 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Brightfind.EktronToEpiserverLab.Models.Pages;
+using Brightfind.EktronToEpiserverLab.Models.Properties;
+
+namespace Brightfind.EktronToEpiserverLab.Models.ViewModels
+{
+    public class EventViewModel : PageViewModel<EventPage>
+    {
+        public IEnumerable<DateTime> Occurrences { get; set; }
+        public IEnumerable<DateTime> StartDates { get; set; }
+        public IEnumerable<DateTime> EndDates { get; set; }
+
+        public EventViewModel(EventPage currentPage) : base(currentPage)
+        {
+            Occurrences = GetAllOccurences();
+            SetStartAndEndDates();
+        }
+
+        private IEnumerable<DateTime> GetAllOccurences()
+        {
+            var dates = new List<DateTime>();
+            if (CurrentPage?.Dates == null) return dates;
+
+            foreach (var item in CurrentPage.Dates)
+            {
+                dates.Add(item.StartDate.Date);
+                var tmpDate = item.StartDate.Date;
+                while (tmpDate != item.EndDate.Date)
+                {
+                    tmpDate = tmpDate.AddDays(1).Date;
+                    dates.Add(tmpDate);
+                }
+                dates.Add(item.EndDate.Date);
+
+                if (item.Occurences <= 0) continue;
+
+                var enumValue = (RepeatOptions)Enum.Parse(typeof(RepeatOptions), item.RepeatsEvery);
+                switch (enumValue)
+                {
+                    case RepeatOptions.Day:
+                        for (var i = 1; i < item.Occurences; i++)
+                        {
+                            dates.Add(item.StartDate.AddDays(i).Date);
+                        }
+                        break;
+                    case RepeatOptions.Week:
+                        for (var i = 1; i < item.Occurences; i++)
+                        {
+                            dates.Add(item.StartDate.AddDays(i * 7).Date);
+                            dates.Add(item.EndDate.AddDays(i * 7).Date);
+                        }
+                        break;
+                    case RepeatOptions.Year:
+                        for (var i = 1; i < item.Occurences; i++)
+                        {
+                            dates.Add(item.StartDate.AddYears(i).Date);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            dates.Sort();
+            return dates.Distinct();
+        }
+        private void SetStartAndEndDates()
+        {
+            var starts = new List<DateTime>();
+            var ends = new List<DateTime>();
+
+            if (CurrentPage?.Dates == null)
+            {
+                this.StartDates = starts;
+                this.EndDates = ends;
+                return;
+            }
+
+            foreach (var date in CurrentPage.Dates)
+            {
+                RepeatOptions repeat = (RepeatOptions)Enum.Parse(typeof(RepeatOptions), date.RepeatsEvery);
+                bool dateOnly = date.AllDay;
+                var start = dateOnly ? date.StartDate.Date : date.StartDate;
+                var end = dateOnly ? date.EndDate.Date : date.EndDate;
+                if (repeat == RepeatOptions.Day && dateOnly)
+                {
+                    end = start;
+                }
+
+                starts.Add(start);
+                ends.Add(end);
+
+                if (date.Occurences <= 0) continue;
+
+
+                if (repeat == RepeatOptions.Day)
+                {
+                    for (var i = 1; i < date.Occurences; i++)
+                    {
+                        starts.Add(start.AddDays(i));
+                        ends.Add(end.AddDays(i));
+                    }
+                    continue;
+                }
+
+                for (int i = 1; i < date.Occurences; i++)
+                {
+                    if (repeat == RepeatOptions.Week)
+                    {
+                        starts.Add(start.AddDays(i * 7));
+                        ends.Add(end.AddDays(i * 7));
+                    }
+                    else if (repeat == RepeatOptions.Year)
+                    {
+                        starts.Add(start.AddYears(i));
+                        ends.Add(end.AddYears(i));
+                    }
+                }
+            }
+
+            this.StartDates = starts;
+            this.EndDates = ends;
+        }
+    }
+}

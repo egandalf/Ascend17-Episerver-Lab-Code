@@ -1,0 +1,21 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.ViewModels.PreviewModel
+    
+@foreach(var area in Model.Areas)
+{
+    if(area.Supported)
+    {
+        @Html.Partial("TemplateHint", string.Format("Preview {0} as {1}", Model.PreviewContent.Name, area.AreaName))
+        <div class="row preview clearfix">
+            @Html.DisplayFor(x => area.ContentArea, new { Tag = area.AreaTag })
+        </div>
+    }
+    else
+    {
+        @Html.Partial("TemplateHint", string.Format("No renderer provided for {0} using {1}", Model.PreviewContent.Name, area.AreaName))
+    }
+}
+
+@if (!Model.Areas.Any())
+{
+    @Html.Partial("TemplateHint", string.Format("There are no renderers for {0}", Model.PreviewContent.Name))
+}

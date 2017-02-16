@@ -1,0 +1,20 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.ViewModels.PageViewModel<Brightfind.EktronToEpiserverLab.Models.Pages.ServicePage>
+    @Html.FullRefreshPropertiesMetaData(new[] { "Price" })
+<div class="row">
+    <div class="col-md-12">
+        <h1 @Html.EditAttributes(m => m.CurrentPage.Name)>@Model.CurrentPage.Name</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="price" @Html.EditAttributes(m => m.CurrentPage.Price)>
+            $@Model.CurrentPage.Price/hr
+        </div>
+        <div class="body">
+            @Html.PropertyFor(m => m.CurrentPage.Description)
+        </div>
+    </div>
+    <div class="col-md-4">
+        @Html.PropertyFor(m => m.CurrentPage.PageImage)
+    </div>
+</div>

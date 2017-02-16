@@ -1,0 +1,15 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.ViewModels.PageViewModel<Brightfind.EktronToEpiserverLab.Models.Pages.BlogPostPage>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-4">
+        <h1 @Html.EditAttributes(m => m.CurrentPage.Name)>@Model.CurrentPage.Name</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+       @Html.PropertyFor(m => m.CurrentPage.RailContentArea, new { HasContainer = false, HasItemContainer = false })
+    </div>
+    <div class="col-md-8">
+        @Html.PropertyFor(m => m.CurrentPage.Article)
+    </div>
+</div>

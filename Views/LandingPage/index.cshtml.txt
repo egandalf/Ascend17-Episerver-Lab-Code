@@ -1,0 +1,2 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.ViewModels.PageViewModel<Brightfind.EktronToEpiserverLab.Models.Pages.LandingPage>
+@Html.PropertyFor(m => m.CurrentPage.MainContentArea, new { CssClass = "row equal-height" })

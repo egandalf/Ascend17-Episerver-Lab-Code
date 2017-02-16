@@ -1,0 +1,16 @@
+﻿@using EPiServer.Editor
+@model Brightfind.EktronToEpiserverLab.Models.ViewModels.PageViewModel<Brightfind.EktronToEpiserverLab.Models.Pages.NewsPage>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h1 @Html.EditAttributes(m => m.CurrentPage.Headline)>@Model.CurrentPage.Headline</h1>
+        @if (PageEditing.PageIsInEditMode || !string.IsNullOrEmpty(Model.CurrentPage.Subhead))
+        {
+            <h3 @Html.EditAttributes(m => m.CurrentPage.Subhead)>@Model.CurrentPage.Subhead</h3>
+        }
+        <p><i>By: <span @Html.EditAttributes(m => m.CurrentPage.Byline)>@Model.CurrentPage.Byline</span></i></p>
+        <p><i>Published: <span @Html.EditAttributes(m => m.CurrentPage.Created)>@Model.CurrentPage.Created.ToLongDateString()</span></i></p>
+        <hr />
+        @Html.PropertyFor(m => m.CurrentPage.ArticleBody)
+        @Html.PropertyFor(m => m.CurrentPage.Contact, new { tag = EPiBootstrapArea.ContentAreaTags.HalfWidth })
+    </div>
+</div>
