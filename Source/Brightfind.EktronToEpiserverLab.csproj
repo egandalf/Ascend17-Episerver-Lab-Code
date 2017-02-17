@@ -280,12 +280,15 @@
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
+    <Compile Include="Business\Caching\CustomSynchronizedCache.cs" />
     <Compile Include="Business\EditorDescriptors\StringListEditorDescriptor.cs" />
+    <Compile Include="Business\Ektron\BlogManager.cs" />
     <Compile Include="Business\Factories\EnumSelectionFactory.cs" />
     <Compile Include="Business\Factories\PageViewContextFactory.cs" />
     <Compile Include="Business\Filters\PageContextActionFilter.cs" />
     <Compile Include="Business\Helpers\ContentHelpers.cs" />
     <Compile Include="Business\Helpers\HtmlHelpers.cs" />
+    <Compile Include="Business\Initialization\CustomCacheInitializationModule.cs" />
     <Compile Include="Business\Initialization\FilterConfigInitializationModule.cs" />
     <Compile Include="Business\Initialization\RenderingInitializationModule.cs" />
     <Compile Include="Business\Interfaces\IModifyLayout.cs" />
