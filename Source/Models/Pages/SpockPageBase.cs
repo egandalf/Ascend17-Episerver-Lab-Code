@@ -7,7 +7,7 @@ using EPiServer.Web;
 
 namespace Brightfind.EktronToEpiserverLab.Models.Pages
 {
-    public abstract class SpockPageBase : PageData
+    public abstract class SpockPageBase : PageData, IPageBase
     {
         [Display(Name = "Title", GroupName = Global.GroupNames.Metadata, Order = 100)]
         [CultureSpecific]

@@ -3,7 +3,7 @@ using EPiServer.Core;
 
 namespace Brightfind.EktronToEpiserverLab.Models.ViewModels
 {
-    public class PageViewModel<T> : IPageViewModel<T> where T : SpockPageBase
+    public class PageViewModel<T> : IPageViewModel<T> where T : IPageBase
     {
         public T CurrentPage { get; private set; }
         public LayoutModel Layout { get; set; }
@@ -17,6 +17,6 @@ namespace Brightfind.EktronToEpiserverLab.Models.ViewModels
 
     public static class PageViewModel
     {
-        public static PageViewModel<T> Create<T>(T page) where T : SpockPageBase => new PageViewModel<T>(page);
+        public static PageViewModel<T> Create<T>(T page) where T : IPageBase => new PageViewModel<T>(page);
     }
 }

@@ -1,0 +1,10 @@
+﻿@model Brightfind.EktronToEpiserverLab.Models.ViewModels.PageViewModel<Brightfind.EktronToEpiserverLab.Models.Routed.BlogArticle>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h1>@Model.CurrentPage.Name</h1>
+        <p>Published: @Model.CurrentPage.Published.ToLongDateString()</p>
+        <div>
+            @Html.Raw(Model.CurrentPage.Body)
+        </div>
+    </div>
+</div>
