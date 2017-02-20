@@ -30,6 +30,9 @@ namespace Brightfind.EktronToEpiserverLab.Models.Routed
         public string[] MetaKeywords { get; set; }
 
         public string MetaDescription { get; set; }
+
+        [JsonIgnore]
+        public string Url { get; set; }
     }
 
     public class XhtmlContentConverter : JsonConverter
@@ -44,7 +47,7 @@ namespace Brightfind.EktronToEpiserverLab.Models.Routed
 
         private string UpdateReferences(string value)
         {
-            return value.Replace("src=\"/", "src=\"http://lab.brightfind.com/").Replace("href=\"/", "href=\"http://lab.brightfind.com/");
+            return string.IsNullOrEmpty(value) ? value : value.Replace("src=\"/", "src=\"http://lab.brightfind.com/").Replace("href=\"/", "href=\"http://lab.brightfind.com/");
         }
 
         public override bool CanConvert(Type objectType) => true;
@@ -57,6 +60,7 @@ namespace Brightfind.EktronToEpiserverLab.Models.Routed
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var token = JToken.Load(reader);
+            if (!token.HasValues) return null;
             return token.Type == JTokenType.Array ? token.ToObject<string[]>() : token.Value<string>().Split(';', ',');
         }
 
