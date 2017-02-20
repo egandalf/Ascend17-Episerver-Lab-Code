@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Routing;
 using Brightfind.EktronToEpiserverLab.Business.Ektron;
@@ -26,10 +27,7 @@ namespace Brightfind.EktronToEpiserverLab.Business.PartialRouters
         {
             var nextSegment = segmentContext.GetNextValue(segmentContext.RemainingPath);
             long blogId;
-            if (!long.TryParse(nextSegment.Next, out blogId)) return null;
-
-            var article = BlogManager.Value.GetItem(blogId);
-
+            var article = long.TryParse(nextSegment.Next, out blogId) ? BlogManager.Value.GetItem(blogId) : BlogManager.Value.GetItem(nextSegment.Next, true);
             segmentContext.RemainingPath = nextSegment.Remaining;
             return article;
         }
@@ -42,8 +40,18 @@ namespace Brightfind.EktronToEpiserverLab.Business.PartialRouters
             return new PartialRouteData()
             {
                 BasePathRoot = _blogPageReference,
-                PartialVirtualPath = $"{content.Id}"
+                PartialVirtualPath = content.Id.ToString() //HttpUtility.UrlPathEncode($"{content.Name}")
             };
+        }
+    }
+
+    public static class BlogPartialRouterHelper
+    {
+        public static string GetUrl(this BlogArticle content, ContentReference reference)
+        {
+            var router = new BlogPartialRouter(reference);
+            var routeData = router.GetPartialVirtualPath(content, "en-us", null, null);
+            return routeData.PartialVirtualPath;
         }
     }
 }
