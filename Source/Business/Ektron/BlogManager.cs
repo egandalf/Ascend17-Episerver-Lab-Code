@@ -34,14 +34,14 @@ namespace Brightfind.EktronToEpiserverLab.Business.Ektron
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
-            if (isEncoded) name = HttpContext.Current.Server.UrlDecode(name);
+            if (isEncoded) name = HttpUtility.UrlDecode(name);
 
             var article = _cache.Get<BlogArticle>($"{name}{CacheKeySuffix}", ReadStrategy.Wait);
             if (article != null) return article;
 
             using (var client = new WebClient())
             {
-                var json = client.UploadString(EktronPath("blogitemhandler", null), name);
+                var json = client.UploadString(EktronPath("blogitemnamehandler", null), name);
                 article = JsonConvert.DeserializeObject<BlogArticle>(json);
                 if (article == null) return null;
                 _cache.Insert($"{name}{CacheKeySuffix}", article, new CacheEvictionPolicy(new TimeSpan(0, 30, 0), CacheTimeoutType.Absolute));
