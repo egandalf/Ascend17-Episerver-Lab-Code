@@ -11,12 +11,19 @@ namespace Brightfind.EktronToEpiserverLab.Models.Routed
     public class BlogArticle : IPageBase
     {
         public long Id { get; set; }
+
         public string Name { get; set; }
+
         public DateTime Published { get; set; }
+
         [JsonConverter(typeof(XhtmlContentConverter))]
         public string Body { get; set; }
+
         public string Subject { get; set; }
+
+        [JsonConverter(typeof(XhtmlContentConverter))]
         public string Teaser { get; set; }
+
         public string MetaTitle { get; set; }
 
         [JsonConverter(typeof(StringToArrayConverter))]
